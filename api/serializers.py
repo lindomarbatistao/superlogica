@@ -11,7 +11,7 @@ class ImovelSerializer(serializers.ModelSerializer):
         model = Imovel
         fields = '__all__'
 
-class ContratoSerilizer(serializers.ModelSerializer):
+class ContratoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contrato
         fields = '__all__'
