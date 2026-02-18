@@ -7,6 +7,7 @@ from .models import Usuario, Imovel, Contrato, Pagamento
 from rest_framework.decorators import api_view
 from .serializers import *
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
 
 ############################## Via Método ###########################################
 @api_view(['GET', 'POST'])
@@ -215,6 +216,7 @@ def listar_usuarios(request):
 class UsuarioViewSet(ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+    permission_classes = [IsAuthenticated]
 
 class ImovelViewSet(ModelViewSet):
     queryset = Imovel.objects.all()
