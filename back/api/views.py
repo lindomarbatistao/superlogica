@@ -5,13 +5,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Usuario, Imovel, Contrato, Pagamento
 from rest_framework.decorators import api_view
-from .serializers import (
-    UsuarioSerializer, 
-    ImovelSerializer, 
-    ContratoSerializer, 
-    PagamentoSerializer
-)
+from .serializers import *
 
+
+############################## Via Método ###########################################
 @api_view(['GET', 'POST'])
 def listar_usuarios(request):
     if request.method=='GET':
@@ -26,19 +23,21 @@ def listar_usuarios(request):
     else:
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
         
-class UsuarioListCreateAPIView(ListCreateAPIView):
-    queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
 
-class UsuarioUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
+############################## Via Generics ###########################################
+# class UsuarioListCreateAPIView(ListCreateAPIView):
+#     queryset = Usuario.objects.all()
+#     serializer_class = UsuarioSerializer
+
+# class UsuarioDetailView(RetrieveUpdateDestroyAPIView):
+#     queryset = Usuario.objects.all()
+#     serializer_class = UsuarioSerializer
 
 class ImovelListCreateAPIView(ListCreateAPIView):
     queryset = Imovel.objects.all()
     serializer_class = ImovelSerializer
 
-class ImovelUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+class ImovelDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Imovel.objects.all()
     serializer_class = ImovelSerializer
 
@@ -46,7 +45,7 @@ class PagamentoListCreateAPIView(ListCreateAPIView):
     queryset = Pagamento.objects.all()
     serializer_class = PagamentoSerializer
 
-class PagamentoUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+class PagamentoDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Pagamento.objects.all()
     serializer_class = PagamentoSerializer
 
@@ -54,15 +53,46 @@ class ContratoListCreateAPIView(ListCreateAPIView):
     queryset = Contrato.objects.all()
     serializer_class = ContratoSerializer
 
-class ContratoUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+class ContratoDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Contrato.objects.all()
     serializer_class = ContratoSerializer
 
 
 
+############################## Via APIView ###########################################
+class UsuarioListCreateAPIView(APIView):
 
-# class UsuarioTeste(APIView):
-#     def get(self, request):
-#         usuarios = Usuario.objects.all()
-#         serializer = UsuarioSerializer(usuarios, many=True)
-#         return Response(serializer.data)
+    def get(self, request):
+        usuarios = Usuario.objects.all()
+        serializer = UsuarioSerializer(usuarios, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = UsuarioSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    
+class UsuarioDetailView(APIView):
+
+    def get_object(self, pk):
+        return Usuario.objects.get(pk=pk)
+    
+    def get(self, pk):
+        usuario =  self.get_object(pk)
+        serializer = UsuarioSerializer(usuario)
+        return Response(serializer.data)
+    
+    def delete(self, request, pk ):
+        usuario = self.get_object(pk)
+        usuario.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def put(self, request, pk):
+        usuario = self.get_object(pk)
+        serializer = UsuarioSerializer(usuario, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
