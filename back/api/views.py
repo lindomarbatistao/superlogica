@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 class UsuarioViewSet(ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 class ImovelViewSet(ModelViewSet):
     queryset = Imovel.objects.all()
