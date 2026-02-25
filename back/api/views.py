@@ -15,7 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 class UsuarioViewSet(ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     # def get_queryset(self):
     #     tipo = self.request.query_params.get('tipo')

@@ -11,6 +11,9 @@ export default function Login(){
     const navigate = useNavigate()
 
     const logar = async ()=>{
+        console.log("user", user);
+        console.log("password", password);
+        
         try {
             const response = await axios.post(
                 'http://127.0.0.1:8000/api/token',
