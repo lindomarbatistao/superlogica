@@ -8,6 +8,8 @@ from rest_framework.decorators import api_view
 from .serializers import *
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from .filters import *
+from django_filters.rest_framework import DjangoFilterBackend
 
 ########################## Com ModelViewSet #########################################
 class UsuarioViewSet(ModelViewSet):
@@ -15,34 +17,45 @@ class UsuarioViewSet(ModelViewSet):
     serializer_class = UsuarioSerializer
     # permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        tipo = self.request.query_params.get('tipo')
-        if tipo:
-            self.queryset = self.queryset.filter(tipo=tipo)
-        return self.queryset
+    # def get_queryset(self):
+    #     tipo = self.request.query_params.get('tipo')
+    #     if tipo:
+    #         self.queryset = self.queryset.filter(tipo=tipo)
+    #     return self.queryset
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = UsuarioFilter
 
 class ImovelViewSet(ModelViewSet):
     queryset = Imovel.objects.all()
     serializer_class = ImovelSerializer
 
-    def get_queryset(self):
-        status = self.request.query_params.get('status')
-        tipo = self.request.query_params.get('tipo')
+    # def get_queryset(self):
+    #     status = self.request.query_params.get('status')
+    #     tipo = self.request.query_params.get('tipo')
 
-        if status:
-            self.queryset = self.queryset.filter(status=status)
-        if tipo:
-            self.queryset = self.queryset.filter(tipo=tipo)
-        return self.queryset
+    #     if status:
+    #         self.queryset = self.queryset.filter(status=status)
+    #     if tipo:
+    #         self.queryset = self.queryset.filter(tipo=tipo)
+    #     return self.queryset
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ImovelFilter
 
 class ContratoViewSet(ModelViewSet):
     queryset = Contrato.objects.all()
     serializer_class = ContratoSerializer
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ContratoFilter
+
 class PagamentoViewSet(ModelViewSet):
     queryset = Pagamento.objects.all()
     serializer_class = PagamentoSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PagamentoFilter
 
 
 ############################## Via Método ###########################################
