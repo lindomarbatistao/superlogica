@@ -28,4 +28,10 @@ class ContratoFilter(django_filters.FilterSet):
         fields = ['data_inicio', 'data_fim', 'valor']
 
 class PagamentoFilter(django_filters.FilterSet):
-    pass
+    data_pagamento = django_filters.DateFilter(field_name='data_pagamento', lookup_expr='iexact')
+    status = django_filters.BooleanFilter(field_name='status')
+    contrato = django_filters.NumberFilter(field_name='contrato_id')
+
+    class Meta:
+        model = Pagamento
+        fields = ['data_pagamento', 'status', 'contrato_id']
