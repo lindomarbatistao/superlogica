@@ -15,9 +15,26 @@ class UsuarioViewSet(ModelViewSet):
     serializer_class = UsuarioSerializer
     # permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        tipo = self.request.query_params.get('tipo')
+        if tipo:
+            self.queryset = self.queryset.filter(tipo=tipo)
+        return self.queryset
+
+
 class ImovelViewSet(ModelViewSet):
     queryset = Imovel.objects.all()
     serializer_class = ImovelSerializer
+
+    def get_queryset(self):
+        status = self.request.query_params.get('status')
+        tipo = self.request.query_params.get('tipo')
+
+        if status:
+            self.queryset = self.queryset.filter(status=status)
+        if tipo:
+            self.queryset = self.queryset.filter(tipo=tipo)
+        return self.queryset
 
 class ContratoViewSet(ModelViewSet):
     queryset = Contrato.objects.all()
