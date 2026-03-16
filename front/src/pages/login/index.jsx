@@ -23,16 +23,27 @@ export default function Login(){
                     password: password
                 }
             )
+            
+            const access = response.data.access
 
-            localStorage.setItem('token', response.data.access)
+            localStorage.setItem("token", access)
+
             setMessage("Usuário logado")
             
             const me = await axios.get('http://127.0.0.1:8000/api/usuarios/me/',{
-                headers: {Authorization: `Bearer ${token}`}
+                headers: {Authorization: `Bearer ${access}`}
             })
 
-            const {is_superuser, is_staff, is_active}= me.data
+            console.log("Dados: ", me.data);
             
+            const {is_superuser, is_staff, is_active}= me.data
+
+            if (!is_active){
+                localStorage.removeItem("token")
+                setMessage("Usuário inativo. Contate o Administrador")
+                setLoading(false)
+                return
+            }
 
 
         } catch (error) {

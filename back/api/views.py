@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -40,6 +40,7 @@ class UsuarioViewSet(ModelViewSet):
     )
     def me(self, request):
         usuario = Usuario.objects.filter(user=request.user).first()
+        print("usuario: ", usuario)
         if not usuario:
             return Response({"detail":"Perfil de usuário não encontrado."}, status=404)
         
@@ -92,4 +93,26 @@ class PagamentoViewSet(ModelViewSet):
     filterset_class = PagamentoFilter
 
 
+class MeView(RetrieveAPIView):
+    serializer_class = UsuarioMeSerializer
 
+    def get_object(self):
+        perfil, created = Usuario.objects.get_or_create(
+            user=self.request.user, 
+            defaults={
+                "nome": self.request.user.username,
+                "email": self.request.user.email,
+                "tipo": "LOCATARIO",
+            }
+        )
+        return perfil
+
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"detail":"Usuário criado com sucesso."}, status=status.HTTP_201_CREATED)
+        return Response({"detail":"Erro ao criar usuário."}, status=status.HTTP_400_BAD_REQUEST)
