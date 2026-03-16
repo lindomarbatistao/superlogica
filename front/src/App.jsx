@@ -11,6 +11,8 @@ import PaymentsAdmin from './pages/admin/payments'
 import ContractsAdmin from './pages/admin/contracts'
 import PropertiesAdmin from './pages/admin/properties'
 
+import Register from './pages/register'
+
 export default function App() {
   return (
     <Router>
@@ -27,6 +29,9 @@ export default function App() {
         <Route path='/admin/payments' element={<PaymentsAdmin />} />
         <Route path='/admin/contracts' element={<ContractsAdmin />} />
         <Route path='/admin/properties' element={<PropertiesAdmin />} />
+
+        <Route path='/register' element={<Register />} />
+
       </Routes>
     </Router>
   )
