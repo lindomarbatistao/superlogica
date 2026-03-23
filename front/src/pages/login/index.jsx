@@ -37,6 +37,8 @@ export default function Login() {
         headers: { Authorization: `Bearer ${access}` },
       });
 
+      console.log("Me Dienifer: ", me.data);
+      
       const { is_superuser, is_staff, is_active } = me.data;
 
       // 3) Se usuário estiver inativo, bloqueia

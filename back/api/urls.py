@@ -12,6 +12,7 @@ router.register(r'usuarios', UsuarioViewSet)
 router.register(r'imoveis', ImovelViewSet)
 router.register(r'contratos', ContratoViewSet)
 router.register(r'pagamentos', PagamentoViewSet)
+router.register(r'dashboard', DashboardViewSet, basename='dashboard')
 
 urlpatterns = [
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
