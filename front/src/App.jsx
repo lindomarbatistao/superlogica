@@ -7,8 +7,8 @@ import ContractUser from './pages/user/contracts'
 import PropertiesUser from './pages/user/properties'
 
 import Admin from './pages/admin'
-import PaymentsAdmin from './pages/admin/payments'
-import ContractsAdmin from './pages/admin/contracts'
+import Payments from './pages/admin/payments'
+import Contracts from './pages/admin/contracts'
 import Properties from './pages/admin/properties'
 
 import Register from './pages/register'
@@ -27,8 +27,8 @@ export default function App() {
         
         <Route path='/admin' element={<Admin />} />
         <Route path='/admin/home' element={<Admin />} />
-        <Route path='/admin/payments' element={<PaymentsAdmin />} />
-        <Route path='/admin/contracts' element={<ContractsAdmin />} />
+        <Route path='/admin/payments' element={<Payments />} />
+        <Route path='/admin/contracts' element={<Contracts />} />
         <Route path='/admin/properties' element={<Properties />} />
 
         <Route path='/register' element={<Register />} />
