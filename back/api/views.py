@@ -204,4 +204,7 @@ def importar_imoveis(request):
         )
 
     except Exception as e:
-        pass
+        return Response(
+            {"detail":f"Erro ao importar o arquivo {str(e)}"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
