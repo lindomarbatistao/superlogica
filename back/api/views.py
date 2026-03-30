@@ -10,6 +10,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .filters import *
 from django_filters.rest_framework import DjangoFilterBackend
+import pandas as pd
+
 
 class UsuarioViewSet(ModelViewSet):
     queryset = Usuario.objects.all()
@@ -158,3 +160,48 @@ class DashboardViewSet(ModelViewSet):
             "contratos_recentes": list(contratos_recentes)
         }
         )
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def importar_imoveis(request):
+    arquivo = request.FILES.get('file')
+
+    if not arquivo:
+        return Response(
+            {"detail":"Nenhum arquivo enviado."},
+            status=status.HTTP_400_BAD_REQUEST
+            )
+    try:
+        df = pd.read_excel(arquivo)
+        colunas_esperadas = ["titulo", "tipo", "valor_aluguel", "status", "locador_id"]
+        for coluna in colunas_esperadas:
+            if coluna not in df.columns:
+                return Response(
+                    {"detail":f"Coluna {coluna} obrigatória."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        for _, row in df.iterrows():
+            locador_id = int(row["locador_id"])
+
+            if not Usuario.objects.filter(id=locador_id).exists():
+                return Response(
+                    {"detail":f"Locador ID: {locador_id} não existe..."},
+                    status=status.HTTP_400_BAD_REQUEST
+                    )
+
+            Imovel.objects.create(
+                titulo=row["titulo"],
+                tipo=row["tipo"],
+                valor_aluguel=row["valor_aluguel"],
+                status=row["status"],
+                locador_id=row["locador_id"]
+            )  
+        return Response(
+            {"detail":"Importação concluida com sucesso..."},
+            status=status.HTTP_201_CREATED
+        )
+
+    except Exception as e:
+        pass
