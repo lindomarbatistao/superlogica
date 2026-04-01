@@ -297,7 +297,7 @@ def importar_pagamentos(request):
         for _, row in df.iterrows():
             contrato_id = int(row["contrato_id"])
 
-            if not Usuario.objects.filter(id=contrato_id).exists():
+            if not Contrato.objects.filter(id=contrato_id).exists():
                 return Response(
                     {"detail":f"Locador ID: {contrato_id} não existe..."},
                     status=status.HTTP_400_BAD_REQUEST
