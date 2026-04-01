@@ -1,14 +1,9 @@
-INSERT INTO api_usuario (nome, email, telefone, tipo) VALUES
-('Carlos Silva', 'carlos.silva@email.com', '11999990001', 'LOCADOR'),
-('Ana Souza', 'ana.souza@email.com', '11999990002', 'LOCADOR'),
-('Marcos Lima', 'marcos.lima@email.com', '11999990003', 'LOCADOR'),
-('Juliana Pereira', 'juliana.pereira@email.com', '11999990004', 'LOCATARIO'),
-('Rafael Costa', 'rafael.costa@email.com', '11999990005', 'LOCATARIO'),
-('Fernanda Alves', 'fernanda.alves@email.com', NULL, 'LOCATARIO'),
-('Bruno Rocha', 'bruno.rocha@email.com', '11999990007', 'LOCADOR'),
-('Patrícia Gomes', 'patricia.gomes@email.com', '11999990008', 'LOCATARIO'),
-('Lucas Martins', 'lucas.martins@email.com', NULL, 'LOCATARIO'),
-('Camila Ribeiro', 'camila.ribeiro@email.com', '11999990010', 'LOCADOR');
+INSERT INTO api_usuario (nome, email, telefone, tipo, user_id) VALUES
+('lin', 'lin@gmail.com', '11999990001', 'LOCADOR',1),
+('maria', 'maria@gmail.com', '11999990002', 'LOCATARIO',2),
+('sofia', 'sofia@email.com', '11999990003', 'LOCADOR',3),
+('matheus', 'matheus.pereira@email.com', '11999990004', 'LOCADOR',4),
+('bruna', 'bruna.costa@email.com', '11999990005', 'LOCATARIO',5);
 
 
 INSERT INTO api_imovel (titulo, tipo, valor_aluguel, status, locador_id) VALUES

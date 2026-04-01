@@ -247,11 +247,11 @@ def importar_contratos(request):
                     status=status.HTTP_400_BAD_REQUEST
                     )
 
-            if not Usuario.objects.filter(id=imovel_id).exists():
+            if not Imovel.objects.filter(id=imovel_id).exists():
                 return Response(
-                    {"detail":f"Imovel ID: {imovel_id} não existe..."},
+                    {"detail": f"Imovel ID: {imovel_id} não existe..."},
                     status=status.HTTP_400_BAD_REQUEST
-                    )
+                )
 
             Contrato.objects.create(
                 data_inicio=row["data_inicio"],
